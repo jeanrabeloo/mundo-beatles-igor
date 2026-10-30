@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>O Mundo Beatles do Igor Rabelo</title>
+<style>
+:root{--bg:#0d0d12;--card:#17171f;--y:#ffd23f;--r:#ff4d6d;--b:#4cc9f0;--g:#80ed99;--t:#f2f2f2}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:Georgia,'Segoe UI',serif;line-height:1.6}
+nav{position:fixed;top:0;width:100%;background:#0d0d12ee;z-index:9;display:flex;gap:18px;justify-content:center;padding:12px;flex-wrap:wrap;font-family:system-ui,sans-serif;font-size:14px}
+nav a{color:var(--t);text-decoration:none;opacity:.8}nav a:hover{color:var(--y);opacity:1}
+#hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+#c{position:absolute;inset:0}
+.hc{position:relative;z-index:2;padding:20px}
+.hc h1{font-size:clamp(2.2rem,8vw,5.5rem);letter-spacing:2px;text-shadow:0 0 30px #000}
+.hc h1 span{color:var(--y)}
+.hc p{font-size:1.2rem;opacity:.9;margin-top:10px}
+.btn{display:inline-block;margin-top:24px;background:var(--y);color:#000;padding:12px 28px;border-radius:30px;font-family:system-ui;font-weight:700;text-decoration:none;border:0;cursor:pointer;font-size:1rem}
+.btn:hover{background:var(--r);color:#fff}
+section{max-width:1000px;margin:auto;padding:90px 20px 40px}
+h2{font-size:2.2rem;color:var(--y);margin-bottom:24px;text-align:center}
+.card{background:var(--card);border-radius:14px;padding:22px;margin:14px 0;border:1px solid #2a2a36}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.alb{background:var(--card);border-radius:14px;overflow:hidden;border:1px solid #2a2a36;transition:.2s;cursor:default}
+.alb:hover{transform:translateY(-5px);border-color:var(--y)}
+.cover{height:150px;display:flex;align-items:center;justify-content:center;font-size:2.4rem;font-weight:700;color:#000;font-family:system-ui}
+.alb div.i{padding:14px}.alb h3{font-size:1rem}.alb small{opacity:.7;font-family:system-ui}
+.tl{border-left:3px solid var(--y);padding-left:22px;margin-left:10px}
+.tl .ev{margin-bottom:22px;position:relative}
+.tl .ev::before{content:'';position:absolute;left:-31px;top:6px;width:14px;height:14px;background:var(--r);border-radius:50%}
+.tl b{color:var(--b);font-family:system-ui}
+.opt{display:block;width:100%;text-align:left;background:#22222d;color:var(--t);border:2px solid transparent;border-radius:10px;padding:12px 16px;margin:8px 0;font-size:1rem;cursor:pointer;font-family:system-ui}
+.opt:hover{border-color:var(--y)}.ok{background:#1d5c33!important;border-color:var(--g)!important}.no{background:#6b1f2d!important}
+.bar{height:8px;background:#2a2a36;border-radius:4px;margin:10px 0}.bar i{display:block;height:100%;background:var(--y);border-radius:4px;transition:.3s}
+pre{white-space:pre-wrap;font-family:Georgia,serif;font-size:1.15rem;min-height:120px}
+select,input{background:#22222d;color:var(--t);border:1px solid #333;border-radius:8px;padding:10px;font-size:1rem}
+.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer{text-align:center;padding:50px 20px;opacity:.6;font-family:system-ui;font-size:.9rem}
+</style>
+</head>
+<body>
+<nav><a href="#hero">Início</a><a href="#discos">Discos</a><a href="#tempo">Linha do tempo</a><a href="#quiz">Quiz</a><a href="#qual">Qual Beatle é você?</a><a href="#letra">Gerador de letras</a><a href="#curio">Curiosidades</a></nav>
+
+<header id="hero">
+<canvas id="c"></canvas>
+<div class="hc">
+<h1>O MUNDO <span>BEATLES</span></h1>
+<p>Feito especialmente para <b>Igor Rabelo</b> 🎸</p>
+<a class="btn" href="#discos">Entrar</a>
+</div>
+</header>
+
+<section id="discos">
+<h2>Discografia</h2>
+<div class="grid" id="albs"></div>
+</section>
+
+<section id="tempo">
+<h2>Linha do tempo</h2>
+<div class="tl" id="tl"></div>
+</section>
+
+<section id="quiz">
+<h2>Quiz Beatles</h2>
+<div class="card" id="qbox"></div>
+</section>
+
+<section id="qual">
+<h2>Qual Beatle é você?</h2>
+<div class="card" id="wbox"></div>
+</section>
+
+<section id="letra">
+<h2>Gerador de letras 🎵</h2>
+<div class="card" style="text-align:center">
+<p>Crie uma letra nova, no clima dos anos 60.</p><br>
+<label>Tema: <select id="tema"><option value="amor">Amor</option><option value="estrada">Estrada</option><option value="sonho">Sonho</option><option value="amigos">Amigos</option></select></label>
+<label> Nome: <input id="nm" value="Igor" size="10"></label><br><br>
+<button class="btn" onclick="gerar()" style="margin:0">Gerar letra</button>
+<br><br><div class="card" style="text-align:left"><pre id="out">Clique em "Gerar letra"...</pre></div>
+</div>
+</section>
+
+<section id="curio">
+<h2>Curiosidades</h2>
+<div id="cur"></div>
+<div class="card" style="text-align:center">🎧 Ouça os discos nas plataformas oficiais:
+<br><a class="btn" target="_blank" rel="noopener" href="https://open.spotify.com/search/The%20Beatles">Spotify</a>
+<a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=The+Beatles+official">YouTube</a></div>
+</section>
+
+<footer>Feito com ❤️ pelo pai do Igor · Site de fã, sem fins comerciais · Letras geradas são originais</footer>
+
+<script>
+const albums=[
+["Please Please Me",1963,"#ffd23f"],["With the Beatles",1963,"#adb5bd"],["A Hard Day's Night",1964,"#4cc9f0"],
+["Beatles for Sale",1964,"#e5989b"],["Help!",1965,"#ff4d6d"],["Rubber Soul",1965,"#c77d3a"],
+["Revolver",1966,"#9d4edd"],["Sgt. Pepper's",1967,"#f72585"],["Magical Mystery Tour",1967,"#80ed99"],
+["The Beatles (Álbum Branco)",1968,"#f8f9fa"],["Yellow Submarine",1969,"#ffd23f"],["Abbey Road",1969,"#4895ef"],["Let It Be",1970,"#8d99ae"]];
+document.getElementById('albs').innerHTML=albums.map(a=>`<div class="alb"><div class="cover" style="background:${a[2]}">${a[1]}</div><div class="i"><h3>${a[0]}</h3><small>Ano: ${a[1]}</small></div></div>`).join('');
+
+const tl=[["1957","John Lennon e Paul McCartney se conhecem em Liverpool."],["1960","A banda vai tocar em Hamburgo, na Alemanha, e ganha experiência."],["1962","Ringo Starr entra. Primeiro single: 'Love Me Do'."],["1963","Estoura a Beatlemania no Reino Unido."],["1964","Chegam aos EUA e aparecem no Ed Sullivan Show para ~73 milhões de pessoas."],["1966","Último show pago, em San Francisco. Passam a viver só de estúdio."],["1967","Lançam o revolucionário Sgt. Pepper's."],["1969","Show no telhado da Apple e gravação de Abbey Road."],["1970","O fim oficial da banda."],["1980","John Lennon morre em Nova York."],["2001","George Harrison morre."],["2023","'Now and Then', a 'última música dos Beatles', é lançada com ajuda de IA para isolar a voz de John."]];
+document.getElementById('tl').innerHTML=tl.map(e=>`<div class="ev"><b>${e[0]}</b><br>${e[1]}</div>`).join('');
+
+const qs=[
+["Quem eram os 4 Beatles?",["John, Paul, George e Ringo","John, Paul, Pete e Mick","Paul, George, Ringo e Brian","John, George, Ringo e Keith"],0],
+["De que cidade os Beatles são?",["Londres","Liverpool","Manchester","Dublin"],1],
+["Quem era o baterista na época de Abbey Road?",["Pete Best","Keith Moon","Ringo Starr","Charlie Watts"],2],
+["Qual álbum tem a famosa foto da faixa de pedestres?",["Revolver","Help!","Let It Be","Abbey Road"],3],
+["Quem cantou 'Here Comes the Sun'?",["George Harrison","Ringo Starr","John Lennon","Paul McCartney"],0],
+["Qual foi o último show público da banda?",["Telhado da Apple, 1969","Shea Stadium","Candlestick Park, 1966","Cavern Club"],0],
+["'Yellow Submarine' é cantada por quem?",["Paul","Ringo","George","John"],1],
+["Em que ano foi lançado o Sgt. Pepper's?",["1965","1967","1969","1971"],1]];
+let qi=0,sc=0;
+function qr(){const b=document.getElementById('qbox');
+ if(qi>=qs.length){const m=sc>=7?"Beatlemaníaco de verdade! 🏆":sc>=4?"Muito bem! 🎸":"Hora de ouvir mais discos! 🎧";
+  b.innerHTML=`<h3>Resultado: ${sc}/${qs.length}</h3><p>${m}</p><button class="btn" onclick="qi=0;sc=0;qr()">Jogar de novo</button>`;return}
+ const q=qs[qi];b.innerHTML=`<div class="bar"><i style="width:${qi/qs.length*100}%"></i></div><h3>${qi+1}. ${q[0]}</h3>`+q[1].map((o,i)=>`<button class="opt" onclick="rp(this,${i})">${o}</button>`).join('')}
+function rp(el,i){const q=qs[qi];document.querySelectorAll('#qbox .opt').forEach((o,j)=>{o.disabled=true;if(j==q[2])o.classList.add('ok')});
+ if(i==q[2])sc++;else el.classList.add('no');setTimeout(()=>{qi++;qr()},1100)}
+qr();
+
+const wq=[
+["Num sábado, você prefere...",["Compor algo com os amigos","Ficar sozinho com seus pensamentos","Fazer piada e animar todo mundo","Estudar algo novo e diferente"],["P","G","R","J"]],
+["Seu maior ponto forte:",["Carisma","Calma","Humor","Inteligência afiada"],["P","G","R","J"]],
+["Seu estilo de música:",["Melodias grudentas","Espiritual e profundo","Simples e divertida","Experimental e ousada"],["P","G","R","J"]],
+["No grupo, você é...",["O organizador","O quieto que surpreende","O coração do grupo","O que fala o que pensa"],["P","G","R","J"]]];
+const who={P:["Paul McCartney 🎸","Melodista, carismático e otimista. Você sabe fazer as pessoas gostarem de você."],G:["George Harrison 🧘","Reservado, profundo e criativo. Fala pouco, mas quando fala, ouvem."],R:["Ringo Starr 🥁","Leal, divertido e tranquilo. Todo grupo precisa de você."],J:["John Lennon 👓","Corajoso, inteligente e provocador. Você não tem medo de dizer o que pensa."]};
+let wi=0,pt={P:0,G:0,R:0,J:0};
+function wr(){const b=document.getElementById('wbox');
+ if(wi>=wq.length){const k=Object.keys(pt).sort((a,c)=>pt[c]-pt[a])[0];b.innerHTML=`<h3>Você é ${who[k][0]}</h3><p>${who[k][1]}</p><button class="btn" onclick="wi=0;pt={P:0,G:0,R:0,J:0};wr()">Refazer</button>`;return}
+ const q=wq[wi];b.innerHTML=`<h3>${q[0]}</h3>`+q[1].map((o,i)=>`<button class="opt" onclick="pt['${q[2][i]}']++;wi++;wr()">${o}</button>`).join('')}
+wr();
+
+const L={
+amor:{a:["Eu esperei por você na esquina da manhã","Seu sorriso acende a rua inteira","Todo dia, {n}, eu quero te encontrar","Uma canção simples diz o que eu sinto"],b:["Oh, venha comigo, o mundo está a girar","Não precisa de muito, só de você aqui","Cantando baixinho, a gente vai ficar","E o tempo passa devagar"]},
+estrada:{a:["Peguei a estrada sem saber pra onde ir","O sol me acompanha pela janela","{n} no volante, o rádio a tocar","Cada curva é uma história a contar"],b:["Siga em frente, a estrada é tão longa","Eu levo uma guitarra e um bom amigo","Amanhã eu chego, e se não chegar","Cantamos até o sol nascer"]},
+sonho:{a:["Num submarino de cor eu vou flutuar","Há estrelas dançando no meu quarto","{n} dorme e sonha com Liverpool","As nuvens têm gosto de céu azul"],b:["Feche os olhos, tudo pode ser","Um jardim de polvo no fundo do mar","Se é sonho, não me acorde agora","Eu vivo aqui o tempo que eu quiser"]},
+amigos:{a:["Com um pouco de ajuda dos meus amigos","Somos quatro num banco de praça","{n} chegou, e a festa começou","Rimos juntos de tudo e de nada"],b:["Yeah, yeah, yeah, a gente vai cantar","Nada é pesado quando é dividido","Levanta o copo, o dia é nosso","Hoje a banda toca só pra nós"]}};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function gerar(){const t=L[document.getElementById('tema').value],n=document.getElementById('nm').value||'Igor';
+ const sh=a=>[...a].sort(()=>Math.random()-.5);const A=sh(t.a).map(x=>x.replace('{n}',n)),B=sh(t.b);
+ document.getElementById('out').textContent=`[Verso 1]\n${A[0]}\n${A[1]}\n${A[2]}\n\n[Refrão]\n${B[0]}\n${B[1]}\n${B[0]}\nYeah, yeah, yeah!\n\n[Verso 2]\n${A[3]}\n${B[2]}\n${B[3]}`}
+
+const cu=["Os Beatles venderam mais de 600 milhões de discos no mundo.","São a banda com mais músicas em 1º lugar na parada americana: 20.","'Yesterday' é uma das músicas mais regravadas da história.","O nome é um trocadilho de 'beetles' (besouros) com 'beat' (batida).","Abbey Road foi gravado em apenas 8 dias de estúdio... e virou a foto de capa mais imitada do mundo.","George Harrison trouxe o sitar indiano para o rock em 'Norwegian Wood'.","O show no telhado da Apple durou 42 minutos até a polícia aparecer."];
+document.getElementById('cur').innerHTML=cu.map(x=>`<div class="card">✨ ${x}</div>`).join('');
+
+// Abertura: raios de sol generativos
+const c=document.getElementById('c'),x=c.getContext('2d');let W,H;
+function rs(){W=c.width=innerWidth;H=c.height=innerHeight}rs();addEventListener('resize',rs);
+let t=0,mx=.5;addEventListener('mousemove',e=>mx=e.clientX/W);
+(function draw(){t+=.004;x.fillStyle='#0d0d12';x.fillRect(0,0,W,H);
+ const cx=W*(.3+mx*.4),cy=H*.45,n=36;
+ for(let i=0;i<n;i++){const a=i/n*Math.PI*2+t,w=.045;
+  const g=x.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H));g.addColorStop(0,`hsla(${45+i*3},100%,60%,.55)`);g.addColorStop(1,'transparent');
+  x.fillStyle=g;x.beginPath();x.moveTo(cx,cy);x.arc(cx,cy,Math.max(W,H),a,a+w);x.fill()}
+ x.fillStyle='#ffd23f';x.beginPath();x.arc(cx,cy,28+Math.sin(t*6)*4,0,7);x.fill();
+ requestAnimationFrame(draw)})();
+</script>
+</body>
+</html>
